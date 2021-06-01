@@ -1,7 +1,7 @@
 <h1 align="center">Hulk Angular Core</h1>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/CloudHMS/hulk.portal.aps/master/docs/images/logo.png" alt="angular-logo" width="160px" height="160px"/>
+  <img src="./docs/images/logo.png" alt="angular-logo" width="160px" height="160px"/>
   <br>
   <i>Development platform for Angular projects</i>
   <br>
