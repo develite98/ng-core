@@ -22,28 +22,10 @@
     }
   },
   "projects": {
-    "aps-admin": {
-      "tags": []
-    },
     "core": {
       "tags": []
     },
     "ui-controls": {
-      "tags": []
-    },
-    "aps-admin-api": {
-      "tags": []
-    },
-    "aps-admin-shared": {
-      "tags": []
-    },
-    "aps-admin-shell": {
-      "tags": []
-    },
-    "aps-admin-theme-park": {
-      "tags": []
-    },
-    "aps-admin-product": {
       "tags": []
     }
   }
