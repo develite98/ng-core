@@ -1,0 +1,48 @@
+.rich-text-editor {
+  position: relative;
+
+  .ql-toolbar.ql-snow {
+    height: 0px;
+    transition: all 0.2s ease-in-out;
+    padding: 0px;
+    overflow: hidden;
+    border: none;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    .ql-toolbar.ql-snow {
+      height: 50px;
+      padding: 8px;
+      border-top: 1px solid #ccc;
+      border-right: 1px solid #ccc;
+      border-left: 1px solid #ccc;
+      overflow: visible;
+    }
+
+    .rich-text-editor__fullscreen-btn {
+      display: flex;
+    }
+  }
+
+  &__fullscreen-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    display: none;
+
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+}

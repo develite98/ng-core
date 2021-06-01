@@ -1,0 +1,20 @@
+:host {
+  width: 100%;
+}
+
+.form-field {
+  width: 100%;
+
+  &__title {
+    display: flex;
+
+    &.--required {
+      &::after {
+        content: '*';
+        color: red;
+        display: block;
+        margin-left: 5px;
+      }
+    }
+  }
+}

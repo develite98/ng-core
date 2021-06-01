@@ -1,0 +1,50 @@
+{
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
+  },
+  "affected": {
+    "defaultBase": "master"
+  },
+  "npmScope": "hulk",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": ["build", "build-spa", "lint", "test", "e2e"],
+        "accessToken": "NjA0NjA4NDMtZjE5Mi00NzMzLWJjZjctZWZhMTlhOTNkODRkfHJlYWQtd3JpdGU=",
+        "canTrackAnalytics": false,
+        "showUsageWarnings": true
+      }
+    }
+  },
+  "projects": {
+    "aps-admin": {
+      "tags": []
+    },
+    "core": {
+      "tags": []
+    },
+    "ui-controls": {
+      "tags": []
+    },
+    "aps-admin-api": {
+      "tags": []
+    },
+    "aps-admin-shared": {
+      "tags": []
+    },
+    "aps-admin-shell": {
+      "tags": []
+    },
+    "aps-admin-theme-park": {
+      "tags": []
+    },
+    "aps-admin-product": {
+      "tags": []
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@hulk/angular-core": ["libs/core/src/index.ts"],
+      "@hulk/angular-ui-controls": ["libs/ui-controls/src/index.ts"],
+      "@hulk/aps-admin-api": ["libs/aps-admin/api/src/index.ts"],
+      "@hulk/aps-admin-shared": ["libs/aps-admin/shared/src/index.ts"],
+      "@hulk/aps-admin-shell": ["libs/aps-admin/shell/src/index.ts"],
+      "@hulk/aps-admin-theme-park": ["libs/aps-admin/theme-park/src/index.ts"],
+      "@hulk/aps-admin-product": ["libs/aps-admin/product/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

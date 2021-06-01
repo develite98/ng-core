@@ -1,0 +1,39 @@
+.sidebar {
+  position: relative;
+  width: fit-content;
+  height: 100%;
+
+  &__body {
+    position: relative;
+    height: 100%;
+
+    &.--isExpanded {
+      width: 240px;
+    }
+  }
+
+  &__collapse-btn {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 49%;
+    right: -13px;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: white;
+    border: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+      color: #1890ff;
+    }
+
+    &.--isExpanded {
+      transform: rotate(180deg);
+    }
+  }
+}

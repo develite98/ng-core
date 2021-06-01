@@ -1,0 +1,17 @@
+.empty-content {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__content {
+    font-size: 20px;
+    width: fit-content;
+    text-align: center;
+  }
+
+  &__empty-icon {
+    font-size: 70px;
+    margin-bottom: 10px;
+  }
+}

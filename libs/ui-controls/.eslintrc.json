@@ -1,0 +1,16 @@
+{
+  "extends": ["../../.eslintrc.json"],
+  "ignorePatterns": ["!**/*"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "extends": ["plugin:@eztool/recommended-strict-angular", "plugin:@angular-eslint/template/process-inline-templates"],
+      "parserOptions": { "project": ["libs/ui-controls/tsconfig.*?.json"] },
+      "rules": {
+        "@angular-eslint/directive-selector": ["error", { "type": "attribute", "prefix": ["hulk-ui", "hulkUI"], "style": "camelCase" }],
+        "@angular-eslint/component-selector": ["error", { "type": "element", "prefix": "hulk-ui", "style": "kebab-case" }]
+      }
+    },
+    { "files": ["*.html"], "extends": ["plugin:@eztool/recommended-strict-angular-template"], "rules": {} }
+  ]
+}
