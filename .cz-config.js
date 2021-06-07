@@ -1,34 +1,21 @@
-const fs = require('fs');
-const path = require('path');
-const appsDir = path.join(process.cwd(), 'apps');
-const libsDir = path.join(process.cwd(), 'libs');
-const workspaceScopes = [
-  ...fs
-    .readdirSync(appsDir, { withFileTypes: true })
-    .filter(dir => dir.isDirectory())
-    .map(dir => ({ name: dir.name, value: dir.name })),
-  ...fs
-    .readdirSync(libsDir, { withFileTypes: true })
-    .filter(dir => dir.isDirectory())
-    .map(dir => ({ name: dir.name, value: dir.name }))
-];
+const workspaceScopes = require('./angular.json').projects;
 
 module.exports = {
   types: [
-    { value: 'build', name: 'build: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)' },
-    { value: 'ci', name: 'ci: Changes to our CI configuration files and scripts (example scopes: Circle, BrowserStack, SauceLabs)' },
-    { value: 'docs', name: 'docs: Documentation only changes' },
-    { value: 'chore', name: 'chore: Changes to the build process or auxiliary tools and libraries such as documentation generation' },
     { value: 'feat', name: 'feat: A new feature' },
     { value: 'fix', name: 'fix: A bug fix' },
     { value: 'perf', name: 'perf: A code change that improves performance' },
+    { value: 'chore', name: 'chore: Changes to the build process or auxiliary tools and libraries such as documentation generation' },
     { value: 'refactor', name: 'refactor: A code change that neither fixes a bug nor adds a feature' },
+    { value: 'build', name: 'build: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)' },
+    { value: 'ci', name: 'ci: Changes to our CI configuration files and scripts (example scopes: Circle, BrowserStack, SauceLabs)' },
+    { value: 'docs', name: 'docs: Documentation only changes' },
     { value: 'test', name: 'test: Adding missing tests or correcting existing tests' },
     { value: 'revert', name: 'revert: Revert a PR or a commit' }
   ],
 
   scopes: [
-    ...workspaceScopes,
+    ...Object.keys(workspaceScopes).map(project => ({ name: project, value: project })),
     {
       name: 'repo',
       description: 'anything related to managing the repo itself'

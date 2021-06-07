@@ -4,9 +4,10 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 // Interceptors
-export const FW_INTERCEPTOR_KEYS: string = 'FW-Interceptor-Keys';
-export const FW_DISPLAY_SPINNER: string = 'FW-Display-Spinner';
-export const FW_HANDLE_ERROR: string = 'FW-Handle-Error';
+export const CORE_INTERCEPTOR_KEYS: string = 'Core-Interceptor-Keys';
+export const CORE_SHOULD_SHOW_SPINNER: string = 'Core-Should-Show-Spinner';
+export const CORE_SHOULD_HANDLE_ERROR: string = 'Core-Should-Handle-Error';
+export const CORE_SHOULD_THROW_BUSINESS_ERROR: string = 'Core-Should-Throw-Business-Error';
 
 export declare type GetParamType = string | boolean | number;
 
@@ -29,6 +30,12 @@ export interface IHttpOptions {
   responseType?: 'json';
 }
 
+export interface IRequestOptions {
+  shouldShowSpinner?: boolean;
+  shouldHandleError?: boolean;
+  shouldThrowBusinessError?: boolean;
+}
+
 export abstract class BaseBackendService {
   protected get apiUrl(): string {
     return '';
@@ -38,46 +45,28 @@ export abstract class BaseBackendService {
 
   constructor(protected http: HttpClient) {}
 
-  public get<TResponse>(
-    url: string,
-    params: IGetParams | null,
-    shouldShowSpinner: boolean = true,
-    shouldHandleError: boolean = true
-  ): Observable<TResponse> {
-    return this.http.get<TResponse>(
-      `${this.apiUrl}${url}`,
-      this.getHttpOptions(shouldShowSpinner, this.preprocessData(params), shouldHandleError)
-    );
+  public get<TResponse>(url: string, params: IGetParams | null, options?: IRequestOptions): Observable<TResponse> {
+    return this.http.get<TResponse>(`${this.apiUrl}${url}`, this.getHttpOptions(this.preprocessData(params), options));
   }
 
   public post<TBody, TResponse>(
     url: string,
     body: TBody,
-    shouldShowSpinner: boolean = true,
-    additionalHttpOptions?: Partial<IHttpOptions>,
-    shouldHandleError: boolean = true
+    options?: IRequestOptions,
+    additionalHttpOptions?: Partial<IHttpOptions>
   ): Observable<TResponse> {
     return this.http.post<TResponse>(`${this.apiUrl}${url}`, this.preprocessData(body), <IHttpOptions>{
-      ...this.getHttpOptions(shouldShowSpinner, null, shouldHandleError),
+      ...this.getHttpOptions(null, options),
       ...additionalHttpOptions
     });
   }
 
-  public put<TBody, TResponse>(
-    url: string,
-    body: TBody,
-    shouldShowSpinner: boolean = true,
-    shouldHandleError: boolean = true
-  ): Observable<TResponse> {
-    return this.http.put<TResponse>(
-      `${this.apiUrl}${url}`,
-      this.preprocessData(body),
-      this.getHttpOptions(shouldShowSpinner, null, shouldHandleError)
-    );
+  public put<TBody, TResponse>(url: string, body: TBody, options?: IRequestOptions): Observable<TResponse> {
+    return this.http.put<TResponse>(`${this.apiUrl}${url}`, this.preprocessData(body), this.getHttpOptions(null, options));
   }
 
-  public delete<TResponse>(url: string, shouldShowSpinner: boolean = true, shouldHandleError: boolean = true): Observable<TResponse> {
-    return this.http.delete<TResponse>(`${this.apiUrl}${url}`, this.getHttpOptions(shouldShowSpinner, null, shouldHandleError));
+  public delete<TResponse>(url: string, options?: IRequestOptions): Observable<TResponse> {
+    return this.http.delete<TResponse>(`${this.apiUrl}${url}`, this.getHttpOptions(null, options));
   }
 
   /**
@@ -91,12 +80,22 @@ export abstract class BaseBackendService {
    * This function will pass the internal headers for checking which interceptors will be run.
    * @see BaseInterceptor
    */
-  protected getHttpOptions(shouldShowSpinner: boolean, params: IGetParams | null, shouldHandleError: boolean = true): IHttpOptions {
+  protected getHttpOptions(params: IGetParams | null, options?: IRequestOptions): IHttpOptions {
+    options = {
+      ...{
+        shouldHandleError: true,
+        shouldThrowBusinessError: true,
+        shouldShowSpinner: true
+      },
+      ...options
+    };
+
     return {
       headers: {
-        [FW_DISPLAY_SPINNER]: shouldShowSpinner.toString(),
-        [FW_INTERCEPTOR_KEYS]: this.onFilterInterceptors(this._interceptorRegistry).toJSON(),
-        [FW_HANDLE_ERROR]: shouldHandleError.toString()
+        [CORE_INTERCEPTOR_KEYS]: this.onFilterInterceptors(this._interceptorRegistry).toJSON(),
+        [CORE_SHOULD_HANDLE_ERROR]: options.shouldHandleError?.toString() || '',
+        [CORE_SHOULD_THROW_BUSINESS_ERROR]: options.shouldHandleError?.toString() || '',
+        [CORE_SHOULD_SHOW_SPINNER]: options.shouldShowSpinner?.toString() || ''
       },
       params: this.parseHttpGetParam(params)
     };

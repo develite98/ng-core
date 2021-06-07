@@ -1,4 +1,9 @@
-import { FW_DISPLAY_SPINNER, FW_HANDLE_ERROR, FW_INTERCEPTOR_KEYS } from './base-backend.service';
+import {
+  CORE_INTERCEPTOR_KEYS,
+  CORE_SHOULD_HANDLE_ERROR,
+  CORE_SHOULD_SHOW_SPINNER,
+  CORE_SHOULD_THROW_BUSINESS_ERROR
+} from './base-backend.service';
 import { HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
 
 import { Injector } from '@angular/core';
@@ -16,7 +21,7 @@ export abstract class BaseInterceptor implements HttpInterceptor {
    * The FW_INTERCEPTOR_KEYS header is passed from @see BaseBackendService by @see InterceptorRegistry.
    */
   public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    const interceptorsJson: string | null = req.headers.get(FW_INTERCEPTOR_KEYS);
+    const interceptorsJson: string | null = req.headers.get(CORE_INTERCEPTOR_KEYS);
 
     if (interceptorsJson) {
       const interceptorKeys: string[] = JSON.parse(interceptorsJson) as string[];
@@ -31,7 +36,11 @@ export abstract class BaseInterceptor implements HttpInterceptor {
          * we must remove the internal headers if the current interceptor is the last one before the request is sent to the server.
          */
         if (this === interceptors[interceptors.length - 1]) {
-          const headers: HttpHeaders = req.headers.delete(FW_INTERCEPTOR_KEYS).delete(FW_DISPLAY_SPINNER).delete(FW_HANDLE_ERROR);
+          const headers: HttpHeaders = req.headers
+            .delete(CORE_INTERCEPTOR_KEYS)
+            .delete(CORE_SHOULD_SHOW_SPINNER)
+            .delete(CORE_SHOULD_HANDLE_ERROR)
+            .delete(CORE_SHOULD_THROW_BUSINESS_ERROR);
 
           req = req.clone({ headers: headers });
         }

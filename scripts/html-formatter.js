@@ -60,10 +60,12 @@ function formatHtmlFiles(files) {
 const files = [];
 
 if (argv.staged) {
-  files.push(...process.argv.slice(3));
+  files.push(
+    ...(process.argv.slice(3) || []).filter(file => !file.endsWith('index.html') || /(component|fragment|layout).html$/g.test(file))
+  );
 } else {
   // TODO: update the common component postfix.
-  files.push(...glob.sync('**/*{component,fragment,layout}.html', { ignore: ['**/node_modules/**'] }));
+  files.push(...glob.sync('**/*{component,fragment,layout}.html', { ignore: ['**/node_modules/**', '**/index.html'] }));
 }
 
 formatHtmlFiles(files);

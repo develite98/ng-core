@@ -10,7 +10,7 @@ const featureBranchRegex = 'features/(([a-z0-9._-])+)';
 const matchUsers = new RegExp(usersBranchRegex, 'g').test(branch);
 const matchFeatures = new RegExp(featureBranchRegex, 'g').test(branch);
 
-const exitCode = +!(matchUsers || matchFeatures);
+const exitCode = +!(matchUsers || matchFeatures || branch === 'HEAD');
 
 if (exitCode === 0) {
   console.log('GIT BRANCH ACCEPTED 👌');

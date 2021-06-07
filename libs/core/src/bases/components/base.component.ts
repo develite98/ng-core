@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Directive, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -8,7 +8,7 @@ export enum ComponentType {
 }
 
 @Directive()
-export abstract class BaseComponent<T extends ComponentType> implements OnInit, AfterViewInit, OnChanges {
+export abstract class BaseComponent<T = ComponentType> implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   public onDestroy$: Subject<unknown> = new Subject<unknown>();
   public isInitiated: boolean = false;
   public isViewInitiated: boolean = false;
@@ -29,22 +29,22 @@ export abstract class BaseComponent<T extends ComponentType> implements OnInit, 
    * This function is for internal use only, please don't override it
    * @internal FW
    */
-  // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
-  public ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
-    this.isInitiated = false;
-    this.isDestroyed = true;
+  public ngAfterViewInit(): void {
+    this.internalAfterViewInit();
+    this.onAfterViewInit();
+    this.isViewInitiated = true;
   }
 
   /**
    * This function is for internal use only, please don't override it
    * @internal FW
    */
-  public ngAfterViewInit(): void {
-    this.internalAfterViewInit();
-    this.onAfterViewInit();
-    this.isViewInitiated = true;
+  public ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+    this.onDestroy();
+    this.isInitiated = false;
+    this.isDestroyed = true;
   }
 
   /**

@@ -1,8 +1,8 @@
 <div class="form-field">
-  <div *ngIf="title"
-       class="form-field__title"
+  <div class="form-field__title"
+       *ngIf="title"
        [ngClass]="{'--required': isRequired}">
-    <h4> {{ title }} </h4>
+    <span> {{ title }} </span>
   </div>
   <div class="form-field__body">
     <ng-content></ng-content>

@@ -1,34 +1,53 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { CORE_SHOULD_HANDLE_ERROR, CORE_SHOULD_THROW_BUSINESS_ERROR } from '../base-backend.service';
+import { EMPTY, Observable, throwError } from 'rxjs';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 import { BaseInterceptor } from '../base-interceptor';
 import { ERROR_HANDLING_CALLBACK } from '../../constants/tokens';
-import { FW_HANDLE_ERROR } from '../base-backend.service';
+import { IBaseResponse } from '../base-response';
 import { InterceptorType } from '../interceptor-registry';
-import { catchError } from 'rxjs/operators';
 
 export enum HttpStatusCode {
-  UNAUTHORIZED = 401,
-  FORBIDDEN = 403,
-  BADREQUEST = 400,
-  BADGATEWAY = 502
+  Ok = 200,
+  BadRequest = 400,
+  Unauthorized = 401,
+  Forbidden = 403,
+  NotFound = 404,
+  BadGateway = 502
 }
 
 @Injectable()
 export class ErrorHandlingInterceptor extends BaseInterceptor {
   protected key: string = InterceptorType.ErrorHandling;
-  private shouldHandleError: boolean = true;
-
+  private _shouldHandleError: boolean = true;
+  private _shouldThrowBusinessError: boolean = true;
   constructor(protected injector: Injector) {
     super(injector);
   }
 
   public handle(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(req).pipe(
+      tap((event: HttpEvent<unknown>) => {
+        if (this._shouldThrowBusinessError) {
+          if (event instanceof HttpResponse) {
+            const body: IBaseResponse = event.body as IBaseResponse;
+            if (body?.errors?.length > 0) {
+              throwError(body.errors);
+            }
+          }
+        }
+      }),
       catchError((error: HttpErrorResponse) => {
-        if (this.shouldHandleError) {
-          this.handleError(error);
+        if (this._shouldHandleError) {
+          const errorHandlingCallback: ((response: HttpErrorResponse) => void) | null = this.injector.get(ERROR_HANDLING_CALLBACK, null);
+
+          if (errorHandlingCallback) {
+            errorHandlingCallback(error);
+          }
+
+          return EMPTY;
         }
 
         return throwError(error);
@@ -36,34 +55,8 @@ export class ErrorHandlingInterceptor extends BaseInterceptor {
     );
   }
 
-  protected handleConnectionError(errorMessage: string): void {
-    this.showError(errorMessage);
-  }
-
   protected processHeaders(headers: HttpHeaders): void {
-    this.shouldHandleError = headers.get(FW_HANDLE_ERROR) === 'true';
-  }
-
-  private handleError(response: HttpErrorResponse): void {
-    switch (response.status) {
-      case HttpStatusCode.UNAUTHORIZED:
-        break;
-      case HttpStatusCode.FORBIDDEN:
-        break;
-      case HttpStatusCode.BADREQUEST:
-        break;
-      case HttpStatusCode.BADGATEWAY:
-        break;
-      default:
-        break;
-    }
-  }
-
-  private showError(message: string): void {
-    const errorHandlingCallback: ((message: string) => void) | null = this.injector.get(ERROR_HANDLING_CALLBACK, null);
-
-    if (errorHandlingCallback) {
-      errorHandlingCallback(message);
-    }
+    this._shouldHandleError = headers.get(CORE_SHOULD_HANDLE_ERROR) === 'true';
+    this._shouldThrowBusinessError = headers.get(CORE_SHOULD_THROW_BUSINESS_ERROR) === 'true';
   }
 }

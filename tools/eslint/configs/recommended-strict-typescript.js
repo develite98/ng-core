@@ -80,10 +80,21 @@ exports.default = {
         prefix: ['T', 'R', 'U', 'V', 'K']
       },
       {
-        selector: ['variable', 'parameter', 'classProperty'],
+        selector: ['variable', 'parameter', 'classProperty', 'typeProperty'],
         types: ['boolean'],
         format: ['PascalCase'],
         prefix: ['is', 'are', 'should', 'has', 'have', 'can', 'did', 'will', 'any'],
+        filter: {
+          regex: '^(production|readonly|disabled)$',
+          match: false
+        }
+      },
+      {
+        selector: ['classProperty'],
+        types: ['boolean'],
+        format: ['PascalCase'],
+        modifiers: ['private'],
+        prefix: ['_is', '_are', '_should', '_has', '_have', '_can', '_did', '_will', '_any'],
         filter: {
           regex: '^(production|readonly|disabled)$',
           match: false

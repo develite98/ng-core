@@ -1,15 +1,6 @@
-import { clone } from 'lodash-es';
+import { clone, isEqual } from 'lodash-es';
 
 export class Utils {
-  /**
-   * Creates a shallow clone of value.
-   *
-   * Note: This method is loosely based on the structured clone algorithm and supports cloning arrays, array buffers, booleans, date
-   * objects, maps, numbers, Object objects, regexes, sets, strings, symbols, and typed arrays. The own enumerable properties of arguments
-   * objects are cloned as plain objects. An empty object is returned for uncloneable values such as error objects, functions, DOM nodes,
-   * and WeakMaps.
-   * https://lodash.com/docs/4.17.15#clone
-   */
   public static clone<T>(value: T, updateClonedValueFn?: (clonedValue: T) => undefined | T | void): T {
     if (value == null) {
       return value;
@@ -24,5 +15,35 @@ export class Utils {
     }
 
     return clonedValue;
+  }
+
+  public static isDifferent<T>(value1: T, value2: T): boolean {
+    if (value1 == null && value2 == null) {
+      return false;
+    }
+
+    if (value1 == null && value2 != null) {
+      return true;
+    }
+
+    if (value1 != null && value2 == null) {
+      return true;
+    }
+
+    if (typeof value1 !== 'object' && typeof value2 !== 'object') {
+      return value1 !== value2;
+    }
+
+    if (value1 instanceof Array && value2 instanceof Array) {
+      if (value1.length !== value2.length) {
+        return true;
+      }
+    }
+
+    return JSON.stringify(value1) !== JSON.stringify(value2);
+  }
+
+  public static isEqual<T>(value1: T, value2: T): boolean {
+    return isEqual(value1, value2);
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 export interface ISidebarMenuItem {
   title?: string;
@@ -6,6 +6,7 @@ export interface ISidebarMenuItem {
   action?: () => void;
   children?: ISidebarMenuItem[];
   disabled?: boolean;
+  routerLink?: string | string[];
 }
 
 @Component({
@@ -16,11 +17,13 @@ export interface ISidebarMenuItem {
 })
 export class HulkSidebarComponent {
   @Input() public menuItems: ISidebarMenuItem[] = [];
+  @Output() public expandedChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   public isExpanded: boolean = true;
 
   public toggle(): void {
     this.isExpanded = !this.isExpanded;
+    this.expandedChanged.emit(this.isExpanded);
   }
 
   public handleClick(item: ISidebarMenuItem): void {

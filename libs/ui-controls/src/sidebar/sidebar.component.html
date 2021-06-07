@@ -3,24 +3,26 @@
        [ngClass]="{'--isExpanded':  isExpanded}"
        (click)="toggle()">
     <i nz-icon
-       [nzType]="'right'"></i>
+       [nzType]="'double-right'"></i>
   </div>
   <ul class="sidebar__body"
       nz-menu
       nzMode="inline"
       [nzInlineCollapsed]="!isExpanded"
       [ngClass]="{'--isExpanded':  isExpanded}">
-    <ng-container *ngTemplateOutlet="menuTpl; context: { list: menuItems, level: 0 }"></ng-container>
+    <ng-container *ngTemplateOutlet="menuTemplate; context: { menuItems: menuItems, level: 0 }"></ng-container>
 
-    <ng-template #menuTpl
-                 let-menus="list"
+    <ng-template #menuTemplate
+                 let-menus="menuItems"
                  let-level="level">
       <ng-container *ngFor="let menu of menus">
         <li *ngIf="!menu.children"
+            nzMatchRouter
             nz-menu-item
             (click)="handleClick(menu)"
             [nzPaddingLeft]="level * 40"
-            [nzDisabled]="menu.disabled">
+            [nzDisabled]="menu.disabled"
+            [routerLink]="menu.routerLink">
           <i nz-icon
              [nzType]="menu.icon"
              *ngIf="menu.icon"></i>
@@ -33,7 +35,7 @@
             [nzTitle]="menu.title"
             [nzIcon]="menu.icon">
           <ul>
-            <ng-container *ngTemplateOutlet="menuTpl; context: { list: menu.children, level: level + 1 }"></ng-container>
+            <ng-container *ngTemplateOutlet="menuTemplate; context: { menuItems: menu.children, level: level + 1 }"></ng-container>
           </ul>
         </li>
       </ng-container>
