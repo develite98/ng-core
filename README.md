@@ -29,6 +29,11 @@
   </a>&nbsp;
 </p>
 
+## Peer Dependencies For UI Control
+
+- [Quill (1.3.7) & Ngx Quill (14.0.0)](https://www.npmjs.com/package/ngx-quill)
+- [Ng Zorro (11.4.1)](https://ng.ant.design/docs/introduce/en)
+
 ## Documentation
 
 - [Getting Started](https://github.com/CloudHMS/hulk.portal.aps/blob/master/docs/developer/00-getting-started.md)
