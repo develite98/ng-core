@@ -1,4 +1,4 @@
-# @hulk/angular-ui-controls
+# @coreng/angular-ui-controls
 
 This library defines all shared ui modules for all APS angular apps.
 

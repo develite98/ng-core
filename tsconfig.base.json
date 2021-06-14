@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@hulk/angular-core": ["libs/core/src/index.ts"],
-      "@hulk/angular-ui-controls": ["libs/ui-controls/src/index.ts"]
+      "@coreng/angular-core": ["libs/core/src/index.ts"],
+      "@coreng/angular-ui-controls": ["libs/ui-controls/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
