@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -o errexit -o noclobber -o nounset -o pipefail
 
-# This script uses the parent version as the version to publish a library with
-
 getBuildType() {
   local release_type="minor"
   if [[ "$1" == *"feat"* ]]; then
