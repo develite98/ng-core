@@ -53,4 +53,4 @@ jobs:
         run: |
           npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
           npm config set scope @coreng
-          ./.github/scripts/publish-libraries.sh
+          .github/scripts/release.sh
