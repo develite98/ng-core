@@ -28,5 +28,6 @@
     "ui-controls": {
       "tags": []
     }
-  }
+  },
+  "libraries": ["core", "ui-controls"]
 }
