@@ -1,4 +1,4 @@
-# @hulk/aps-admin-share
+# @coreng/aps-admin-share
 
 This library defines all shared components, dtos, classes, enums, services... for all APS angular apps.
 
