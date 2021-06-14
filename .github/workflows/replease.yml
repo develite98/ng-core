@@ -22,10 +22,10 @@ jobs:
 
       - name: Setup node
         uses: actions/setup-node@v2
-        with:
+        with: |
           node-version: '14'
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@cloudhms
+          scope: '@coreng
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -51,8 +51,7 @@ jobs:
 
       - name: Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          npm config set //registry.npmjs.org/:_authToken=$GITHUB_TOKEN
-          npm config set scope @cloudhms --global
+          npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
           ./.github/scripts/publish-libraries.sh
