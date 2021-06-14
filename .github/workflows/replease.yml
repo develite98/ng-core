@@ -21,9 +21,11 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: '14'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@coreng'
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -47,10 +49,12 @@ jobs:
       - name: Build Hulk
         run: yarn build:all --skip-nx-cache
 
-      - name: Release
+      - working-directory: ./dist/libs/ui-controls
+        run: npm publish
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
-          npm config set scope @coreng
-          .github/scripts/release.sh
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - working-directory: ./dist/libs/core
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
