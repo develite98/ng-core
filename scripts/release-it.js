@@ -13,7 +13,7 @@ const cwd = process.cwd();
 const packageRoot = path.join(cwd, packagePath);
 const packageJsonFile = path.join(packageRoot, 'package.json');
 const changelogFile = path.join(packageRoot, 'CHANGELOG.md');
-const angularConfig = JSON.parse(path.join(packageRoot, 'angular.json'));
+const angularConfig = require('../angular.json');
 const libraries = angularConfig.projects;
 
 if (!packagePath || !fs.existsSync(packageJsonFile)) {
