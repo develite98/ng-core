@@ -48,13 +48,13 @@ librariesName.forEach(libraryName => {
     },
     plugins: {
       '@release-it/bumper': {
-        in: `/home/runner/work/ng-core/dist/libs/${librariesName}/package.json`,
-        out: [`/home/runner/work/ng-core/dist/libs/${librariesName}/package.json`]
+        in: `../dist/libs/${librariesName}/package.json`,
+        out: [`../dist/libs/${librariesName}/package.json`]
       },
       '@release-it/conventional-changelog': {
         preset: 'angular',
         commitPath: distOutputFolder,
-        infile: changelogFile,
+        infile: `../dist/libs/${librariesName}/CHANGELOG.md`,
         sameFile: true,
         tagPrefix: libraryName + '@',
         append: true
