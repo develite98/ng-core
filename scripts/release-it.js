@@ -17,6 +17,8 @@ const angularConfig = require('../angular.json');
 const libraries = angularConfig.projects;
 
 console.log(packagePath);
+console.log(packageRoot);
+console.log(packageJsonFile);
 console.log(angularConfig);
 
 // if (!packagePath || !fs.existsSync(packageJsonFile)) {
