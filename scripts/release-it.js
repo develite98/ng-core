@@ -25,6 +25,8 @@ librariesName.forEach(libraryName => {
   const packageJsonFile = path.join(distOutputFolder, 'package.json');
   const changelogFile = path.join(distOutputFolder, 'CHANGELOG.md');
 
+  console.log(distOutputFolder);
+
   let option = {
     'dry-run': args.dryRun,
     ci: args.ci,
@@ -46,8 +48,8 @@ librariesName.forEach(libraryName => {
     },
     plugins: {
       '@release-it/bumper': {
-        in: packageJsonFile,
-        out: [packageJsonFile.replace(/\\/gi, '/'), path.join(distOutputFolder, 'package.json').replace(/\\/gi, '/')]
+        in: `/home/runner/work/ng-core/dist/libs/${librariesName}/package.json`,
+        out: [`/home/runner/work/ng-core/dist/libs/${librariesName}/package.json`]
       },
       '@release-it/conventional-changelog': {
         preset: 'angular',

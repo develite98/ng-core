@@ -45,8 +45,8 @@ jobs:
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install
 
-      # - name: Build Hulk
-      #   run: yarn build:all --skip-nx-cache
+      - name: Build Hulk
+        run: yarn build:all --skip-nx-cache
 
       - name: Release Library
         # run: node ./scripts/release-it.js --path packages/prettier-plugin-formatter --ci
