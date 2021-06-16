@@ -1,5 +1,0 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-node ./scripts/git-commit-lint.js
-node ./scripts/git-branch-lint.js
