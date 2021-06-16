@@ -22,10 +22,10 @@ const librariesName = Object.keys(angularConfig.projects);
 // Init config
 librariesName.forEach(libraryName => {
   const distOutputFolder = path.join(cwd, `dist/${libraries[libraryName].root}`);
-  const packageJsonFile = path.join(distOutputFolder, 'package.json');
-  const changelogFile = path.join(distOutputFolder, 'CHANGELOG.md');
+  const packageJsonFile = path.join(cwd, `dist/${libraries[libraryName].root}`, 'package.json');
+  const changelogFile = path.join(cwd, `dist/${libraries[libraryName].root}`, 'CHANGELOG.md');
 
-  console.log(distOutputFolder);
+  console.log(packageJsonFile);
 
   let option = {
     'dry-run': args.dryRun,
@@ -48,13 +48,13 @@ librariesName.forEach(libraryName => {
     },
     plugins: {
       '@release-it/bumper': {
-        in: `../dist/libs/${librariesName}/package.json`,
-        out: [`../dist/libs/${librariesName}/package.json`]
+        in: `/home/runner/work/ng-core/dist/libs/${libraryName}/package.json`,
+        out: [`/home/runner/work/ng-core/dist/libs/${libraryName}/package.json`]
       },
       '@release-it/conventional-changelog': {
         preset: 'angular',
         commitPath: distOutputFolder,
-        infile: `../dist/libs/${librariesName}/CHANGELOG.md`,
+        infile: `/home/runner/work/ng-core/dist/libs/${libraryName}/CHANGELOG.md `,
         sameFile: true,
         tagPrefix: libraryName + '@',
         append: true
