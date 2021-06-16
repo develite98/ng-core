@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const yargsParser = require('yargs-parser');
 const releaseIt = require('release-it');
+
 const args = yargsParser(process.argv, {
   boolean: ['major', 'minor', 'patch', 'dry-run', 'ci'],
   string: ['path']
@@ -11,20 +12,26 @@ const packagePath = args.path;
 const cwd = process.cwd();
 const packageRoot = path.join(cwd, packagePath);
 const packageJsonFile = path.join(packageRoot, 'package.json');
-const nxJsonFile = path.join(packageRoot, 'nx.json');
 const changelogFile = path.join(packageRoot, 'CHANGELOG.md');
+const angularConfig = JSON.parse(path.join(packageRoot, 'angular.json'));
+const libraries = angularConfig.projects;
 
 if (!packagePath || !fs.existsSync(packageJsonFile)) {
   console.error('Please provide a valid package path.');
   process.exit(1);
 }
 
-const nxJson = JSON.parse(fs.readFileSync(nxJsonFile, 'utf-8'));
-const libraries = [...nxJson.libraries];
-const options = [];
+if (libraries) {
+  console.info('There is no library to release!');
+  process.exit(1);
+}
 
-libraries.forEach(libraryName => {
-  const distOutputFolder = path.join(cwd, `dist/${libraryName}`, packagePath);
+const releaseOptions = [];
+const librariesName = Object.keys(angularConfig.projects);
+
+// Init config
+librariesName.forEach(libraryName => {
+  const distOutputFolder = path.join(cwd, `dist/${libraries[libraryName].root}`, packagePath);
   let option = {
     'dry-run': args.dryRun,
     ci: args.ci,
@@ -42,8 +49,7 @@ libraries.forEach(libraryName => {
     },
     npm: false,
     hooks: {
-      'before:release': `echo "//registry.npmjs.org/:_authToken=${process.env.GITHUB_TOKEN}" > .npmrc`,
-      'after:release': `npm publish ${distOutputFolder} --access public && yarn rimraf .npmrc`
+      'after:release': `npm publish ${distOutputFolder} --access public`
     },
     plugins: {
       '@release-it/bumper': {
@@ -61,10 +67,11 @@ libraries.forEach(libraryName => {
     }
   };
 
-  options.push(option);
+  releaseOptions.push(option);
 });
 
-options.forEach(option => {
+// Release package
+releaseOptions.forEach(option => {
   releaseIt(option)
     .then(output => console.log(output))
     .catch(error => {

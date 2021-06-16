@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: '14'
           registry-url: https://registry.npmjs.org/
-          scope: '@coreng'
+
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -48,12 +48,9 @@ jobs:
       - name: Build Hulk
         run: yarn build:all --skip-nx-cache
 
-      - working-directory: ./dist/libs/ui-controls
-        run: npm publish --access=public
+      - name: Release Library
+        run: yarn nx release ${{ github.event.inputs.package }} --${{ github.event.inputs.increment }}
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - working-directory: ./dist/libs/core
-        run: npm publish --access=public
-        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
