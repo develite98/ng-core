@@ -24,7 +24,7 @@ console.log(angularConfig);
 //   process.exit(1);
 // }
 
-if (libraries) {
+if (!libraries) {
   console.info('There is no library to release!');
   process.exit(1);
 }
@@ -34,7 +34,8 @@ const librariesName = Object.keys(angularConfig.projects);
 
 // Init config
 librariesName.forEach(libraryName => {
-  const distOutputFolder = path.join(cwd, `dist/${libraries[libraryName].root}`, packagePath);
+  const distOutputFolder = path.join(cwd, `dist/${libraries[libraryName].root}`);
+  console.log(distOutputFolder);
   let option = {
     'dry-run': args.dryRun,
     ci: args.ci,
