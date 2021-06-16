@@ -53,5 +53,5 @@ jobs:
         run: yarn nx run ui-controls:release ${{ github.event.inputs.package }} --${{ github.event.inputs.increment }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: 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
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
