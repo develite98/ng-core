@@ -101,6 +101,18 @@
             "jestConfig": "libs/ui-controls/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "release": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "node ./scripts/release-it.js --path packages/prettier-plugin-formatter --ci",
+                "forwardAllArgs": true
+              }
+            ],
+            "parallel": false
+          }
         }
       }
     }
