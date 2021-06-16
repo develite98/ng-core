@@ -16,10 +16,13 @@ const changelogFile = path.join(packageRoot, 'CHANGELOG.md');
 const angularConfig = require('../angular.json');
 const libraries = angularConfig.projects;
 
-if (!packagePath || !fs.existsSync(packageJsonFile)) {
-  console.error('Please provide a valid package path.');
-  process.exit(1);
-}
+console.log(packagePath);
+console.log(angularConfig);
+
+// if (!packagePath || !fs.existsSync(packageJsonFile)) {
+//   console.error('Please provide a valid package path.');
+//   process.exit(1);
+// }
 
 if (libraries) {
   console.info('There is no library to release!');
