@@ -42,7 +42,8 @@ librariesName.forEach(libraryName => {
     },
     npm: false,
     hooks: {
-      'after:release': `npm publish ${distOutputFolder} --access public`
+      'before:release': 'rm -fr ".git/rebase-merge"',
+      'after:release': `npm publish ${distOutputFolder} --access public && yarn rimraf .npmrc`
     },
     plugins: {
       '@release-it/bumper': {
