@@ -48,6 +48,11 @@ jobs:
       - name: Build Hulk
         run: yarn build:all --skip-nx-cache
 
+      - name: Setup Git
+        run: |
+          git config --local user.email "phongcao3091998@gmail.com"
+          git config --local user.name "ngCore[Admin]"
+
       - name: Release Library
         # run: node ./scripts/release-it.js --path packages/prettier-plugin-formatter --ci
         run: yarn nx run ui-controls:release ${{ github.event.inputs.package }} --${{ github.event.inputs.increment }}

@@ -19,12 +19,11 @@ if (!libraries) {
 // Init Config
 const releaseOptions = [];
 const librariesName = Object.keys(angularConfig.projects);
+
 librariesName.forEach(libraryName => {
   const distOutputFolder = path.join(cwd, `dist/${libraries[libraryName].root}`);
   const packageJsonFile = path.join(cwd, `${libraries[libraryName].root}`, 'package.json');
   const changelogFile = path.join(cwd, `${libraries[libraryName].root}`, 'CHANGELOG.md');
-
-  console.log(packageJsonFile);
 
   let option = {
     'dry-run': args.dryRun,
