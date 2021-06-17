@@ -17,8 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
           token: ${{ secrets.PAT }}
@@ -54,11 +53,10 @@ jobs:
       - name: Setup Git
         run: |
           git config --local user.email "phongcao3091998@gmail.com"
-          git config --local user.name "ngCore[Admin]"
+          git config --local user.name "phong.cao"
           git remote set-url origin https://phongcao3091998:${{ secrets.PAT }}@github.com/phongcao3091998/ng-core.git
 
       - name: Release Library
-        # run: node ./scripts/release-it.js --path packages/prettier-plugin-formatter --ci
         run: yarn nx run ui-controls:release ${{ github.event.inputs.package }} --${{ github.event.inputs.increment }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
