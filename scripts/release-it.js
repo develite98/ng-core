@@ -1,25 +1,24 @@
 // @ts-check
+const cwd = process.cwd();
 const path = require('path');
-const yargsParser = require('yargs-parser');
 const releaseIt = require('release-it');
+const yargsParser = require('yargs-parser');
 const angularConfig = require('../angular.json');
-
 const args = yargsParser(process.argv, {
   boolean: ['major', 'minor', 'patch', 'dry-run', 'ci'],
   string: ['path']
 });
-const cwd = process.cwd();
-const libraries = angularConfig.projects;
 
+// Get Library
+const libraries = angularConfig.projects;
 if (!libraries) {
   console.info('There is no library to release!');
   process.exit(1);
 }
 
+// Init Config
 const releaseOptions = [];
 const librariesName = Object.keys(angularConfig.projects);
-
-// Init config
 librariesName.forEach(libraryName => {
   const distOutputFolder = path.join(cwd, `dist/${libraries[libraryName].root}`);
   const packageJsonFile = path.join(cwd, `${libraries[libraryName].root}`, 'package.json');
@@ -65,7 +64,7 @@ librariesName.forEach(libraryName => {
   releaseOptions.push(option);
 });
 
-// Release package
+// Release Package
 releaseOptions.forEach(option => {
   releaseIt(option)
     .then(output => console.log(output))
