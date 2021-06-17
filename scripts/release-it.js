@@ -18,7 +18,7 @@ if (!libraries) {
 
 // Init Config
 const releaseOptions = [];
-const librariesName = Object.keys(angularConfig.projects);
+const librariesName = Object.keys(angularConfig.projects).slice(0, 1);;
 
 librariesName.forEach(libraryName => {
   const distOutputFolder = path.join(cwd, `dist/${libraries[libraryName].root}`);
