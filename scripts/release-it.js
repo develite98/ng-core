@@ -22,8 +22,8 @@ const librariesName = Object.keys(angularConfig.projects);
 // Init config
 librariesName.forEach(libraryName => {
   const distOutputFolder = path.join(cwd, `dist/${libraries[libraryName].root}`);
-  const packageJsonFile = path.join(cwd, `dist/${libraries[libraryName].root}`, 'package.json');
-  const changelogFile = path.join(cwd, `dist/${libraries[libraryName].root}`, 'CHANGELOG.md');
+  const packageJsonFile = path.join(cwd, `${libraries[libraryName].root}`, 'package.json');
+  const changelogFile = path.join(cwd, `${libraries[libraryName].root}`, 'CHANGELOG.md');
 
   console.log(packageJsonFile);
 
