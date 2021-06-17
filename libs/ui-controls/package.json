@@ -1,6 +1,6 @@
 {
   "name": "@coreng/angular-ui-controls",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "peerDependencies": {
     "@angular/common": "11.2.13",
     "@angular/core": "11.2.13"
